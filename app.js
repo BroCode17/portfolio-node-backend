@@ -18,8 +18,12 @@ app.use(express.json())
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 
+app.get('/',(req, res) =>{
+   return res.send(200).json({mes: "Connected"})
+})
+
 app.post('/api/send', async (req, res) => {
-  const {fullname, email} = req.body
+  const {fullname, email, phone, desc} = req.body
   console.log(fullname)
   
  let testAccount = await nodemailer.createTestAccount();
@@ -54,20 +58,20 @@ app.post('/api/send', async (req, res) => {
   let mail = mailgenerator.generate(response)
 
   const mes = {
-    from: "efrimpong@springfieldcollege.edu", // sender address
+    from: email, // sender address
     to: "efrimpong@springfieldcollege.edu", // list of receivers
     subject: "Hello ✔", // Subject line
     text: "Hello world?", // plain text body
-    html: `<p>yoo</p>`// html body
+    html: `<p>${fullname} ${email} ${phone} ${desc}</p>`// html body
   }
  
-   // send mail with defined transport object
-  //  const info = await transporter.sendMail(mes).then(() => {
-  //   return res.status(201).json('Success')
-  //  }).catch( e => res.status(500).json({e}));
+  //  send mail with defined transport object
+   const info = await transporter.sendMail(mes).then(() => {
+    return res.status(201).json({mes: 'Success'})
+   }).catch( e => res.status(500).json({e}));
 
   console.log(`Msg sent`)
-  res.status(201).json({mes: "success"})
+
 })
 
 app.listen(PORT, () => {
