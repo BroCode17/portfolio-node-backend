@@ -19,7 +19,7 @@ app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 
 app.get('/',(req, res) =>{
-   return res.send(200).json({mes: "Connected"})
+   return res.sendStatus(200).json({mes: "Connected"})
 })
 
 app.post('/api/send', async (req, res) => {
