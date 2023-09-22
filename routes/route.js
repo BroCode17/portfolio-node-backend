@@ -1,4 +1,7 @@
 const router = require('express').Router();
-const {signup} = require('../controller/appController')
+const {sendEmail, } = require('../controller/appController')
 
-router.post('/send/a', signup)
+router.post('/send', sendEmail)
+
+
+module.exports = router
